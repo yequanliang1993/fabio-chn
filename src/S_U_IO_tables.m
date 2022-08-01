@@ -1,3 +1,9 @@
+%% this is the code to construct the (multi-regional) supply, use, and input-ouput tables of provinces
+
+% Created by: Quanliang Ye
+% Created date: 02/06/2021
+% Email Add.: Quanliang Ye
+
 %% supply tables
 clear
 cd('C:\Users\YeQ\Documents\MATLAB\Chinese FABIO')
@@ -195,87 +201,3 @@ temp_prod+temp_imp_do+temp_imp_int-temp_exp_do-temp_exp_int+temp_fd_imp_do+temp_
 temp_use_do+temp_imp_do+temp_imp_int+temp_fd_do+temp_fd_imp_int+temp_fd_imp_do
 
 squeeze(sum(commod_bal_chn(2012-1989,:,:,:),3));
-
-
-%% heatmap figure
-clear 
-cd('C:\Users\YeQ\Documents\MATLAB\Chinese FABIO')
-load('IOT_physical','io_tab_chn_Z','io_tab_chn_Y')
-
-r = 31;
-s = 84;
-t = 23;
-
-for m = 1:r
-    reg{m} = sprintf('r%d',m);
-end
-
-for j = 1:s
-    prod{j} = sprintf('c%d',j);
-end
-
-temp_z = squeeze(io_tab_chn_Z(t,:,:));
-temp_z(:,r*s+1) = squeeze(io_tab_chn_Y(t,:,end));
-
-temp_rr = zeros(r+1,r+1);
-temp_ss = zeros(s,s);
-for i = 1:r
-    for m = 1:r
-        temp_rr(i,m) = sum(sum(temp_z((i-1)*s+(1:s),(m-1)*s+(1:s))));
-        temp_ss = temp_ss+temp_z((i-1)*s+(1:s),(m-1)*s+(1:s));
-    end
-    
-    temp_rr(i,end) = sum(temp_z((i-1)*s+(1:s),end));
-    temp_rr(end,i) = sum(temp_z(end,(i-1)*s+(1:s)));
-end
-
-fs = 20;
-lw = 1;
-figure
-reg{r+1} = 'Export';
-x_v = reg;
-reg{r+1} = 'Import';
-y_v = reg;
-h = heatmap(x_v,y_v,log(temp_rr));
-h.Title = 'log(Z^r^r)';
-h.XLabel = 'Province';
-h.YLabel = 'Province';
-h.FontSize=fs;
-
-cd('C:\Users\YeQ\Documents\MATLAB\Chinese FABIO')
-fig = gcf;
-fig.PaperUnits = 'inches';
-fig.PaperPosition = [0 0 11 10];
-print('Heatmap_Z_rr','-dpng','-r300')
-
-
-
-figure
-h = heatmap(prod,prod,log(temp_ss));
-h.Title = 'log(Z_c_c)';
-h.XLabel = 'Commodity';
-h.YLabel = 'Commodity';
-h.FontSize=fs;
-
-cd('C:\Users\YeQ\Documents\MATLAB\Chinese FABIO')
-fig = gcf;
-fig.PaperUnits = 'inches';
-fig.PaperPosition = [0 0 11 10];
-print('Heatmap_Z_cc','-dpng','-r300')
-
-%% 
-load MRIOT_2012_42sectors
-
-temp_rr_m = zeros(r,r);
-for m = 1:r
-    for n = 1:r
-        temp_rr_m(m,n) = sum(IO.Z((m-1)*42+1,(n-1)*42+(1:42)));
-        
-        if temp_rr(m,n) ~= 0
-            tr_mn(m,n) = 1;
-        end
-    end
-end
-
-temp_rr_m_tr = temp_rr_m -diag(diag(temp_rr_m));
-temp_rr_tr = temp_rr-diag(diag(temp_rr));
