@@ -1,3 +1,9 @@
+%% this is the code to prepare data for FABIO-CHN
+
+% Created by: Quanliang Ye
+% Created date: 02/06/2021
+% Email Add.: Quanliang Ye
+
 %% agricultural codes in FABIO
 clear
 
