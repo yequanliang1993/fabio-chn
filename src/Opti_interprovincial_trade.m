@@ -1,3 +1,9 @@
+%% this is the code to run the optimization model for estimating inter-provincial trade
+
+% Created by: Quanliang Ye
+% Created date: 02/06/2021
+% Email Add.: Quanliang Ye
+
 %% assuming the export only happens in provinces with surplus products, whereas import only happens in provinces with insufficient production
 clear
 cd('C:\Users\YeQ\Documents\MATLAB\Chinese FABIO')
