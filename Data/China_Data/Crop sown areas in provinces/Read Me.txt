@@ -1,0 +1,1 @@
+This folder contains excel files for the annual sown areas of main crops between 1990-2019 in 31 provinces of mainland China.

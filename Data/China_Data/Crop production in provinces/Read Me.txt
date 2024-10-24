@@ -1,0 +1,1 @@
+This folder contains 31 excel files for the annual main crop prodcution between 1990 to 2019 in 31 provinces of mainland China.
